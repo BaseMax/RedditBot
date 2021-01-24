@@ -108,3 +108,20 @@ class Reddit():
   def create_directory_if_not_exists(self, name):
     if not os.path.exists(name):
         self.create_directory(name)
+
+  def browser_open(self, link):
+    self.log(Message.INFO, "browser_open", link)
+    self.driver.get(link)
+
+    if self.browser == Browser.FIREFOX:
+      if sys.platform.startswith('win32'):
+        command = "xcopy " + self.profile_temp_path + " " + self.profile_path +" /Y /G /K /R /E /S /C /H"
+      else: #linux, cygwin, darwin, freebsd
+        command = "cp -R " + self.profile_temp_path + "/* " + self.profile_path
+      
+      self.log(Message.INFO, "browser_open", "running " + command)
+
+      if os.system(command):
+        self.log(Message.INFO, "browser_open", "browser profile files copied.")
+      else:
+        self.log(Message.FATAL, "browser_open", "browser profile files NOT copied.")
