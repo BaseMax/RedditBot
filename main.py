@@ -139,3 +139,23 @@ class Reddit():
       pickle.dump(self.driver.get_cookies() , open(self.COOKIE, "wb"))
     else:
       self.log(Message.INFO, "browser_cookie_save", "driver is none and we cannot get cookies!")
+
+  def create_database(self, name):
+    query = 'CREATE DATABASE `{0}`'.format(name)
+
+  def db_exec(self, query, params = ()):
+    if self.cursor != None:
+      self.cursor.execute(query, params)
+    else:
+      self.execute(query, params)
+
+  def db_cursor(self):
+    if self.cursor != None:
+      self.cursor = self.db.cursor()
+    else:
+      self.log(Message.INFO, "db_cursor", "cannot reopen a cursor on database connection two times!")
+
+  def db_commit(self):
+    self.cursor.close()
+    self.db.commit()
+    self.cursor = None
