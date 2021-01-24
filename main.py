@@ -297,3 +297,27 @@ class Reddit():
     except NoSuchElementException:
       self.log(Message.FATAL, "home", "Error!")
 
+  def loginManualy(self, username, password):
+    # load cookies from cache files
+    # Cannot call this function everywhere, we should use this function when we open same domain.
+    # Why? selenium.common.exceptions.InvalidCookieDomainException: Message: Document is cookie-averse
+    self.browser_cookies_load()
+
+    try:
+      # Your session has expired. Please refresh the page and try again.
+      url = self.base_url + r"login/?dest=https%3A%2F%2Fwww.reddit.com%2F"
+      self.browser_open(url)
+      time.sleep(15)
+
+      username_in = self.driver.find_element_by_class_name("AnimatedForm__textInput")
+      username_in.send_keys(username, Keys.ENTER)
+
+      pass_in = self.driver.find_element_by_xpath("//*[@id='loginPassword']")
+      pass_in.send_keys(password, Keys.ENTER)
+
+      time.sleep(20)
+
+
+    except NoSuchElementException:
+      self.log(Message.FATAL, "loginManualy", "Error: maybe you already loginned!")
+
