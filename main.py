@@ -125,3 +125,17 @@ class Reddit():
         self.log(Message.INFO, "browser_open", "browser profile files copied.")
       else:
         self.log(Message.FATAL, "browser_open", "browser profile files NOT copied.")
+
+  def browser_cookies_load(self):
+    # check cookie file exists or no
+    if path.isfile(self.COOKIE):
+      # read and load cookies from prev file
+      cookies = pickle.load(open(self.COOKIE, "rb"))
+      for cookie in cookies:
+          self.driver.add_cookie(cookie)
+
+  def browser_cookies_save(self):
+    if self.driver != None:
+      pickle.dump(self.driver.get_cookies() , open(self.COOKIE, "wb"))
+    else:
+      self.log(Message.INFO, "browser_cookie_save", "driver is none and we cannot get cookies!")
