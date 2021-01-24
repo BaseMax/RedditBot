@@ -342,3 +342,9 @@ class Reddit():
     sys.exit(0) # success
     # check out ExitCode via `echo $?`
 
+if __name__ == "__main__":
+  reddit = Reddit()
+  reddit.start()
+  # reddit.login()
+  reddit.home()
+  reddit.quit()
