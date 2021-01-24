@@ -26,3 +26,8 @@ class Browser(Enum):
   FIREFOX    = 1
   CHROME     = 2 # chromium, chrome engine
   SAFARI     = 3 # future
+
+class Message(Enum):
+  FATAL    = 0
+  WARNING  = 1
+  INFO     = 2
