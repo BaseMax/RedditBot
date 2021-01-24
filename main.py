@@ -200,3 +200,17 @@ class Reddit():
     else:
       self.log(Message.INFO, "create_tables", "post table already exists")
 
+  def empty_tables(self):
+    for table in tables:
+      empty_table(table)
+
+  def empty_table(self, table):
+    query = 'TRUNCATE `{0}`'.format(table)
+
+  def drop_tables(self):
+    for table in tables:
+      drop_table(table)
+
+  def drop_table(self, table):
+    query = 'DROP TABLE `{0}`'.format(table)
+
