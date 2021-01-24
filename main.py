@@ -260,3 +260,40 @@ class Reddit():
     # call loginManualy method
     return self.loginManualy(username, password)
 
+  def home(self):
+    try:
+      # Your session has expired. Please refresh the page and try again.
+      url = self.base_url
+      self.browser_open(url)
+
+      self.browser_cookies_load()
+
+      self.driver.implicitly_wait(5)
+
+      # find_element_by_id
+      # find_elements_by_css_selector
+      # find_element_by_xpath
+      if self.driver.find_elements_by_css_selector("#post-composer-du-media"): # du = German refer to my IP or a fix word?
+        self.log(Message.INFO, "home", "Seems we already logined to reddit :)")
+      else:
+        self.log(Message.INFO, "home", "compose post box not exists, so go to login...")
+        return self.login()
+
+      time.sleep(5)
+      # Not works as well yet!
+      accept_cookie = self.driver.find_element_by_xpath('/html/body/div[1]/div/div[2]/div[3]/div[2]/form/div/button')
+      print(accept_cookie)
+      accept_cookie.click()
+
+      # Read posts or more jobs...
+      # TODO
+      # self.db_cursor()
+      # query = "INSERT INTO post (title) VALUES (%s)"
+      # values = ("test")
+      # self.db_exec(query, values)
+      # self.db_commit()
+      # print(self.cursor.rowcount)
+
+    except NoSuchElementException:
+      self.log(Message.FATAL, "home", "Error!")
+
