@@ -102,3 +102,9 @@ class Reddit():
       database=os.getenv("DB_NAME")
     )
 
+  def create_directory(self, name):
+    os.makedirs(name)
+
+  def create_directory_if_not_exists(self, name):
+    if not os.path.exists(name):
+        self.create_directory(name)
