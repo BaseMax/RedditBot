@@ -159,3 +159,44 @@ class Reddit():
     self.cursor.close()
     self.db.commit()
     self.cursor = None
+
+  def check_table(self, table):
+    self.db_cursor()
+
+    table = table.replace('\'', '\'\'')
+
+    # query = 'SHOW TABLES LIKE `{0}`'.format(table)
+    query = '''
+        SELECT COUNT(*)
+        FROM information_schema.tables
+        WHERE table_name = '{0}'
+        '''.format(table)
+
+    self.db_exec(query)
+
+    if self.cursor.fetchone()[0] == 1:
+      return True
+    return False
+
+  def create_tables(self):
+    if not check_table('post'):
+      query = '''
+        CREATE TABLE IF NOT EXISTS `post` (
+          `id` bigint(50) NOT NULL,
+          `title` text NOT NULL,
+          `channel` varchar(52) NOT NULL,
+          `vote` varchar(10) NOT NULL,
+          `link` text NOT NULL,
+          `datetime` timestamp NOT NULL DEFAULT current_timestamp()
+        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+        ALTER TABLE `post`
+          ADD PRIMARY KEY (`id`);
+        ALTER TABLE `post`
+          MODIFY `id` bigint(50) NOT NULL AUTO_INCREMENT;
+        COMMIT;
+      '''
+      self.db_exec(query)
+      self.log(Message.INFO, "create_tables", "post table created")
+    else:
+      self.log(Message.INFO, "create_tables", "post table already exists")
+
