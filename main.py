@@ -22,3 +22,7 @@ class ProgramMode(Enum):
   DEBUG      = 2 # show details of all elements and actions: FATAL, WARNING, INFO
   PRODUCTION = 2 # without messages into stdout: FATAL
 
+class Browser(Enum):
+  FIREFOX    = 1
+  CHROME     = 2 # chromium, chrome engine
+  SAFARI     = 3 # future
