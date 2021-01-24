@@ -214,3 +214,28 @@ class Reddit():
   def drop_table(self, table):
     query = 'DROP TABLE `{0}`'.format(table)
 
+  def log(self, typ, route, message):
+    if self.mode == ProgramMode.DEBUG:
+      print(typ, route, message)
+
+  def start(self):
+    # startup browser
+    if self.browser == Browser.FIREFOX:
+      self.driver = webdriver.Firefox(firefox_profile=self.profile, options=self.options)
+
+      # get profile temp path
+      self.profile_temp = self.driver.firefox_profile.path # Seems this not good for our purpose in Windows OS! (This directory only contains a `user.js` file with user_prefs)
+
+      self.driver.get("about:support")
+      box = self.driver.find_element_by_id("profile-dir-box")
+      self.profile_temp_path = box.text
+      self.log(Message.INFO, "start", "temp profile path is " + self.profile_temp_path)
+
+
+    elif self.browser == Browser.CHROME:
+      # TODO
+      self.driver = webdriver.Chrome(options=self.options)
+
+    # wait for browser to load and init
+    self.driver.implicitly_wait(30)
+
