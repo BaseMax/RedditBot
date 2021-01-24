@@ -16,3 +16,9 @@ from selenium import webdriver
 from dotenv import load_dotenv, find_dotenv, dotenv_values
 from selenium.webdriver.common.keys import Keys
 from selenium.common.exceptions import NoSuchElementException
+
+class ProgramMode(Enum):
+  TEST       = 1 # only important messages: FATAL, WARNING
+  DEBUG      = 2 # show details of all elements and actions: FATAL, WARNING, INFO
+  PRODUCTION = 2 # without messages into stdout: FATAL
+
