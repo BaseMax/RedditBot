@@ -239,3 +239,24 @@ class Reddit():
     # wait for browser to load and init
     self.driver.implicitly_wait(30)
 
+  def login(self):
+    '''
+    Why we not use `os.getenv("KEY")` and we used `os.environ.get("KEY")`?
+      because environ raises error exception if KEY not exists
+    '''
+
+    # read param from .env
+    '''
+    Why we use `ACCOUNT` for username and we did not use `USERNAME`?
+      because USERNAME will rewrite on Windows OS and we will get windows-running-username and not from own .env file
+    '''
+    username = os.getenv("ACCOUNT")
+    password = os.getenv("PASSWORD")
+
+    # log
+    self.log(Message.INFO, "login", "username is " + username)
+    self.log(Message.INFO, "login", "password is " + password)
+
+    # call loginManualy method
+    return self.loginManualy(username, password)
+
