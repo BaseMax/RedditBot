@@ -321,3 +321,24 @@ class Reddit():
     except NoSuchElementException:
       self.log(Message.FATAL, "loginManualy", "Error: maybe you already loginned!")
 
+  def browser_close_all(self):
+    # close all open tabs
+    if len(self.driver.window_handles) < 1:
+        return
+    for window_handle in self.driver.window_handles[:]:
+        self.driver.switch_to.window(window_handle)
+        self.driver.close()
+
+  def quit(self):
+    # save cookies before quit
+    self.browser_cookies_save()
+    # close all tabs
+    self.browser_close_all()
+    # quit browser
+    self.driver.quit()
+    # disconnect from database
+    self.db.close()
+    # success exit
+    sys.exit(0) # success
+    # check out ExitCode via `echo $?`
+
